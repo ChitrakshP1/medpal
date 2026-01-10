@@ -6,6 +6,9 @@ import streamlit as st
 # ---------- FIX IMPORT PATH ----------
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+# Import the integrated AI/Database logic
+from backend.logic import ask_ai, assess_risk
+
 # ---------- PAGE CONFIG ----------
 st.set_page_config(
     page_title="MedPal - AI Health Companion",
@@ -16,7 +19,6 @@ st.set_page_config(
 # ---------- PREMIUM DARK UI CSS ----------
 st.markdown("""
 <style>
-
 /* Main background */
 .stApp {
     background: radial-gradient(circle at top left, #1f2937, #020617);
@@ -79,13 +81,6 @@ section[data-testid="stVerticalBlock"] > div {
     color: #d1d5db;
 }
 
-/* Success / Info alerts */
-.stAlert {
-    border-radius: 16px;
-    background: linear-gradient(135deg, #064e3b, #022c22);
-    color: #ecfdf5;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -109,9 +104,7 @@ dose = st.text_input("Dose", placeholder="500 mg")
 if st.button("Save Medication"):
     if med_name and dose:
         time_now = datetime.now().strftime("%H:%M")
-        st.session_state.med_history.append(
-            f"💊 {med_name} ({dose}) at {time_now}"
-        )
+        st.session_state.med_history.append(f"💊 {med_name} ({dose}) at {time_now}")
 
 st.markdown("**Medication History:**")
 if st.session_state.med_history:
@@ -123,17 +116,12 @@ else:
 # ================= SYMPTOMS SECTION =================
 st.markdown("## 🤒 Log your Symptoms / Vitals")
 
-symptom = st.text_input(
-    "Symptom / Vitals",
-    placeholder="Headache and fever"
-)
+symptom = st.text_input("Symptom / Vitals", placeholder="Headache and fever")
 
 if st.button("Log Symptom"):
     if symptom:
         time_now = datetime.now().strftime("%H:%M")
-        st.session_state.symptom_history.append(
-            f"🤒 {symptom} at {time_now}"
-        )
+        st.session_state.symptom_history.append(f"🤒 {symptom} at {time_now}")
 
 st.markdown("**Symptom / Vitals History:**")
 if st.session_state.symptom_history:
@@ -142,17 +130,43 @@ if st.session_state.symptom_history:
 else:
     st.caption("No symptoms logged yet.")
 
-# ================= ASK MEDPAL =================
+# ================= ASK MEDPAL (INTEGRATED) =================
 st.markdown("## 🧠 Ask MedPal")
+st.info("Powered by your medical database and AI for dynamic responses.")
 
 question = st.text_input(
     "Type your health question",
-    placeholder="What could be causing fever and headache?"
+    placeholder="What could be causing chest pain and a cough?"
 )
 
 if st.button("Ask MedPal"):
     if question:
-        st.success(
-            "Fever and headache are commonly caused by viral infections, dehydration, "
-            "or lack of rest. If symptoms persist or worsen, please consult a doctor."
-        )
+        with st.spinner("Analyzing against medical database..."):
+            # 1. Get the dynamic AI answer (RAG)
+            ai_answer = ask_ai(question)
+            
+            # 2. Get the specific database metadata for UI styling
+            db_data = assess_risk(question)
+            
+            # 3. Dynamic UI Coloring based on Risk
+            if db_data:
+                risk = db_data['risk']
+                category = db_data['category']
+                
+                if risk == "High":
+                    st.error(f"🚨 **URGENT: {category} Detection**")
+                elif risk == "Medium":
+                    st.warning(f"⚠️ **MODERATE: {category} Detection**")
+                else:
+                    st.success(f"✅ **LOGGED: {category} Detection**")
+                
+                st.markdown(f"**Detected Symptom:** {db_data['detected']}")
+            
+            # 4. Show the Dynamic AI Response
+            st.markdown("### 👨‍⚕️ MedPal's Analysis")
+            st.write(ai_answer)
+            
+            st.divider()
+            st.caption("🚨 **Disclaimer:** MedPal provides informational guidance only. If you are experiencing a medical emergency, please call local emergency services immediately.")
+    else:
+        st.warning("Please enter a question or symptom to analyze.")
