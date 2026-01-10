@@ -1,11 +1,25 @@
 symptom,risk_level,advice
-chest pain,High,Emergency! Seek immediate medical attention.
-shortness of breath,High,High risk. Visit the ER or call emergency services.
-severe bleeding,High,Apply pressure and go to the nearest hospital.
-high fever,Medium,Monitor temperature. If above 103°F, see a doctor.
-mild fever,Low,Rest and hydrate. Use OTC fever reducers.
-persistent cough,Medium,If it lasts more than 2 weeks, consult a doctor.
-runny nose,Low,Likely common cold. Stay warm and hydrated.
-dizziness,Medium,Sit down. If it persists or includes fainting, see a doctor.
-sore throat,Low,Gargle with warm salt water.
-joint pain,Low,Rest the joint and apply ice.
+chest pain,High,🚨 EMERGENCY: Sit down immediately. Call emergency services if pain is sharp or radiates.
+shortness of breath,High,🚨 EMERGENCY: High risk of respiratory distress. Seek medical help now.
+severe bleeding,High,🚨 EMERGENCY: Apply direct pressure. Head to the nearest ER immediately.
+sudden numbness,High,🚨 EMERGENCY: Possible sign of stroke. Call for an ambulance immediately.
+blurred vision,High,Possible neurological or eye emergency. Seek urgent medical care.
+high fever,Medium,Drink fluids and rest. If it exceeds 103F (39.4C), see a doctor soon.
+mild fever,Low,Stay hydrated and rest. Monitor temperature every 4 hours.
+dry cough,Low,Stay hydrated. Warm honey and lemon water may help soothe the throat.
+persistent cough,Medium,If coughing lasts more than 2 weeks, consult a doctor for a chest exam.
+runny nose,Low,Common cold likely. Rest and stay warm. Over-the-counter decongestants may help.
+dizziness,Medium,Sit or lie down immediately. Hydrate. See a doctor if it recurs or includes fainting.
+sore throat,Low,Gargle with warm salt water. Use throat lozenges to reduce irritation.
+joint pain,Low,Rest the affected area. Apply ice for 15 minutes. Use OTC pain relief if needed.
+stomach ache,Low,Avoid heavy foods. Sip clear liquids. If pain becomes sharp, see a doctor.
+nausea,Medium,Sip clear fluids like ginger ale. Avoid solid food until feeling better.
+migraine,Medium,Rest in a dark quiet room. Apply a cold compress to your forehead or neck.
+back pain,Low,Keep moving gently. Avoid heavy lifting. Apply heat or ice as preferred.
+insomnia,Low,Establish a regular sleep schedule. Avoid screens 1 hour before bed.
+eye strain,Low,Follow the 20-20-20 rule: Every 20 mins look 20 feet away for 20 seconds.
+rash,Medium,Avoid scratching. Use calamine lotion. If it spreads or causes swelling, see a doctor.
+ear pain,Medium,Do not put anything inside the ear. Seek a doctor to check for an infection.
+fatigue,Low,Ensure you are getting 7-9 hours of sleep and adequate nutrition.
+palpitations,Medium,Possible stress or caffeine reaction. Sit quietly. If it persists, get an ECG.
+wheezing,Medium,Use prescribed inhaler if available. If new, seek medical evaluation for asthma/allergies.
