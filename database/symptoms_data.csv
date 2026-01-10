@@ -1,11 +1,28 @@
-symptom,risk_level,advice
-chest pain,High,Emergency! Seek immediate medical attention.
-shortness of breath,High,High risk. Visit the ER or call emergency services.
-severe bleeding,High,Apply pressure and go to the nearest hospital.
-high fever,Medium,Monitor temperature. If above 103°F, see a doctor.
-mild fever,Low,Rest and hydrate. Use OTC fever reducers.
-persistent cough,Medium,If it lasts more than 2 weeks, consult a doctor.
-runny nose,Low,Likely common cold. Stay warm and hydrated.
-dizziness,Medium,Sit down. If it persists or includes fainting, see a doctor.
-sore throat,Low,Gargle with warm salt water.
-joint pain,Low,Rest the joint and apply ice.
+symptom,risk_level,category,advice
+chest pain,High,Emergency,🚨 EMERGENCY: Sit down immediately. Call emergency services if pain is sharp or radiates.
+shortness of breath,High,Respiratory,🚨 EMERGENCY: High risk of respiratory distress. Seek medical help now.
+severe bleeding,High,Emergency,🚨 EMERGENCY: Apply direct pressure. Head to the nearest ER immediately.
+sudden numbness,High,Neurological,🚨 EMERGENCY: Possible sign of stroke. Call for an ambulance immediately.
+blurred vision,High,Neurological,Possible neurological or eye emergency. Seek urgent medical care.
+severe allergic reaction,High,Allergy,Use an EpiPen if available. Seek emergency medical care immediately for any throat swelling.
+fainting,High,General,Lie down and elevate legs. Consult a doctor to determine the underlying cause.
+high fever,Medium,General,Drink fluids and rest. If it exceeds 103F (39.4C), see a doctor soon.
+persistent cough,Medium,Respiratory,If coughing lasts more than 2 weeks, consult a doctor for a chest exam.
+dizziness,Medium,Neurological,Sit or lie down immediately. Hydrate. See a doctor if it recurs or includes fainting.
+nausea,Medium,Digestive,Sip clear fluids like ginger ale. Avoid solid food until feeling better.
+migraine,Medium,Neurological,Rest in a dark quiet room. Apply a cold compress to your forehead or neck.
+rash,Medium,Dermatology,Avoid scratching. Use calamine lotion. If it spreads or causes swelling, see a doctor.
+ear pain,Medium,ENT,Do not put anything inside the ear. Seek a doctor to check for an infection.
+wheezing,Medium,Respiratory,Sit upright. Use prescribed inhaler if available. If new, seek medical evaluation.
+panic attack,Medium,Mental Health,Practice deep breathing (4-7-8 technique). If chest pain persists, seek help.
+mild fever,Low,General,Stay hydrated and rest. Monitor temperature every 4 hours.
+dry cough,Low,Respiratory,Stay hydrated. Warm honey and lemon water may help soothe the throat.
+runny nose,Low,Respiratory,Common cold likely. Rest and stay warm. Over-the-counter decongestants may help.
+sore throat,Low,Respiratory,Gargle with warm salt water. Use throat lozenges to reduce irritation.
+joint pain,Low,Musculoskeletal,Rest the affected area. Apply ice for 15 minutes. Use OTC pain relief if needed.
+stomach ache,Low,Digestive,Avoid heavy foods. Sip clear liquids. If pain becomes sharp, see a doctor.
+back pain,Low,Musculoskeletal,Keep moving gently. Avoid heavy lifting. Apply heat or ice as preferred.
+insomnia,Low,Mental Health,Establish a regular sleep schedule. Avoid screens 1 hour before bed.
+eye strain,Low,General,Follow the 20-20-20 rule: Every 20 mins look 20 feet away for 20 seconds.
+fatigue,Low,General,Ensure you are getting 7-9 hours of sleep and adequate nutrition.
+dehydration,Low,General,Sip water or electrolyte drinks slowly. Monitor for dizziness.
