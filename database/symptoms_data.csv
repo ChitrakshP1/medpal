@@ -1,6 +1,11 @@
 symptom,risk_level,advice
-fever,Low,Rest and stay hydrated. If it persists, see a doctor.
-chest pain,High,Emergency! Please seek immediate medical attention.
-cough,Low,Drink warm fluids and rest.
-shortness of breath,High,Seek medical help immediately.
-headache,Low,Rest in a quiet room and stay hydrated.
+chest pain,High,Emergency! Seek immediate medical attention.
+shortness of breath,High,High risk. Visit the ER or call emergency services.
+severe bleeding,High,Apply pressure and go to the nearest hospital.
+high fever,Medium,Monitor temperature. If above 103°F, see a doctor.
+mild fever,Low,Rest and hydrate. Use OTC fever reducers.
+persistent cough,Medium,If it lasts more than 2 weeks, consult a doctor.
+runny nose,Low,Likely common cold. Stay warm and hydrated.
+dizziness,Medium,Sit down. If it persists or includes fainting, see a doctor.
+sore throat,Low,Gargle with warm salt water.
+joint pain,Low,Rest the joint and apply ice.
