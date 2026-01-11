@@ -1,13 +1,9 @@
-import sys
-import os
 from datetime import datetime
+import requests
 import streamlit as st
 
-# ---------- FIX IMPORT PATH ----------
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
-# Import the integrated AI/Database logic
-from backend.logic import ask_ai, assess_risk
+# ---------- BACKEND CONFIG ----------
+BACKEND_URL = "https://medpal-qkvf.onrender.com"
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(
@@ -19,19 +15,14 @@ st.set_page_config(
 # ---------- PREMIUM DARK UI CSS ----------
 st.markdown("""
 <style>
-/* Main background */
 .stApp {
     background: radial-gradient(circle at top left, #1f2937, #020617);
     color: #e5e7eb;
 }
-
-/* Headings */
 h1, h2, h3 {
     color: #f9fafb;
     font-weight: 700;
 }
-
-/* Cards */
 section[data-testid="stVerticalBlock"] > div {
     background: rgba(17, 24, 39, 0.75);
     backdrop-filter: blur(14px);
@@ -40,8 +31,6 @@ section[data-testid="stVerticalBlock"] > div {
     margin-bottom: 32px;
     box-shadow: 0 12px 35px rgba(0,0,0,0.45);
 }
-
-/* Inputs */
 .stTextInput input, .stTextArea textarea {
     background: linear-gradient(145deg, #111827, #020617);
     color: #f9fafb;
@@ -50,14 +39,6 @@ section[data-testid="stVerticalBlock"] > div {
     padding: 12px;
     font-size: 15px;
 }
-
-/* Placeholder text */
-.stTextInput input::placeholder,
-.stTextArea textarea::placeholder {
-    color: #9ca3af;
-}
-
-/* Buttons */
 .stButton button {
     background: linear-gradient(135deg, #2563eb, #1d4ed8);
     color: white;
@@ -66,21 +47,7 @@ section[data-testid="stVerticalBlock"] > div {
     padding: 12px 26px;
     font-size: 15px;
     font-weight: 600;
-    box-shadow: 0 10px 26px rgba(37, 99, 235, 0.4);
-    transition: all 0.25s ease-in-out;
 }
-
-.stButton button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 16px 34px rgba(37, 99, 235, 0.6);
-}
-
-/* History text */
-.stMarkdown p {
-    font-size: 15px;
-    color: #d1d5db;
-}
-
 </style>
 """, unsafe_allow_html=True)
 
@@ -107,11 +74,8 @@ if st.button("Save Medication"):
         st.session_state.med_history.append(f"💊 {med_name} ({dose}) at {time_now}")
 
 st.markdown("**Medication History:**")
-if st.session_state.med_history:
-    for med in st.session_state.med_history:
-        st.write(med)
-else:
-    st.caption("No medications logged yet.")
+for med in st.session_state.med_history:
+    st.write(med)
 
 # ================= SYMPTOMS SECTION =================
 st.markdown("## 🤒 Log your Symptoms / Vitals")
@@ -124,15 +88,12 @@ if st.button("Log Symptom"):
         st.session_state.symptom_history.append(f"🤒 {symptom} at {time_now}")
 
 st.markdown("**Symptom / Vitals History:**")
-if st.session_state.symptom_history:
-    for s in st.session_state.symptom_history:
-        st.write(s)
-else:
-    st.caption("No symptoms logged yet.")
+for s in st.session_state.symptom_history:
+    st.write(s)
 
-# ================= ASK MEDPAL (INTEGRATED) =================
+# ================= ASK MEDPAL =================
 st.markdown("## 🧠 Ask MedPal")
-st.info("Powered by your medical database and AI for dynamic responses.")
+st.info("Powered by MedPal AI backend.")
 
 question = st.text_input(
     "Type your health question",
@@ -141,32 +102,49 @@ question = st.text_input(
 
 if st.button("Ask MedPal"):
     if question:
-        with st.spinner("Analyzing against medical database..."):
-            # 1. Get the dynamic AI answer (RAG)
-            ai_answer = ask_ai(question)
-            
-            # 2. Get the specific database metadata for UI styling
-            db_data = assess_risk(question)
-            
-            # 3. Dynamic UI Coloring based on Risk
-            if db_data:
-                risk = db_data['risk']
-                category = db_data['category']
-                
-                if risk == "High":
-                    st.error(f"🚨 **URGENT: {category} Detection**")
-                elif risk == "Medium":
-                    st.warning(f"⚠️ **MODERATE: {category} Detection**")
-                else:
-                    st.success(f"✅ **LOGGED: {category} Detection**")
-                
-                st.markdown(f"**Detected Symptom:** {db_data['detected']}")
-            
-            # 4. Show the Dynamic AI Response
-            st.markdown("### 👨‍⚕️ MedPal's Analysis")
-            st.write(ai_answer)
-            
-            st.divider()
-            st.caption("🚨 **Disclaimer:** MedPal provides informational guidance only. If you are experiencing a medical emergency, please call local emergency services immediately.")
+        with st.spinner("Analyzing with MedPal AI..."):
+            try:
+                # 1️⃣ Call AI answer endpoint
+                ai_res = requests.post(
+                    f"{BACKEND_URL}/ask",
+                    json={"question": question},
+                    timeout=30
+                )
+                ai_answer = ai_res.json().get("answer")
+
+                # 2️⃣ Call risk assessment endpoint
+                risk_res = requests.post(
+                    f"{BACKEND_URL}/assess-risk",
+                    json={"question": question},
+                    timeout=30
+                )
+                db_data = risk_res.json()
+
+                # 3️⃣ Risk-based UI
+                if db_data:
+                    risk = db_data.get("risk")
+                    category = db_data.get("category")
+
+                    if risk == "High":
+                        st.error(f"🚨 **URGENT: {category} Detection**")
+                    elif risk == "Medium":
+                        st.warning(f"⚠️ **MODERATE: {category} Detection**")
+                    else:
+                        st.success(f"✅ **LOGGED: {category} Detection**")
+
+                    st.markdown(f"**Detected Symptom:** {db_data.get('detected')}")
+
+                # 4️⃣ AI Response
+                st.markdown("### 👨‍⚕️ MedPal's Analysis")
+                st.write(ai_answer)
+
+                st.caption(
+                    "🚨 **Disclaimer:** MedPal provides informational guidance only. "
+                    "If you are experiencing a medical emergency, contact emergency services."
+                )
+
+            except Exception as e:
+                st.error("Unable to reach MedPal backend.")
+                st.code(str(e))
     else:
-        st.warning("Please enter a question or symptom to analyze.")
+        st.warning("Please enter a question to analyze.")
